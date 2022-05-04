@@ -13,13 +13,23 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
+    <tr *ngFor="let usuario of usuarios; indice">
+      <th scope="row">
+        {{ usuario.id }}
+      </th>
+      <td>
+        {{ usuario.nombres }}
+      </td>
+      <td>
+        {{ usuario.apellidos }}
+      </td>
+      <td>
+        {{ usuario.username }}
+      </td>
       <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
+      <td>
+        {{ usuario.estado === 0 ? "Inactivo" : "Activo" }}
+      </td>
     </tr>
   </tbody>
 </table>
