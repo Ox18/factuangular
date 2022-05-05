@@ -1,0 +1,106 @@
+<button type="button" class="btn btn-primary" (click)="open(content)">
+  <i class="bi bi-person-plus-fill"></i>
+  Agregar usuario
+</button>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar usuario</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form
+      class="formulario"
+      [formGroup]="checkoutForm"
+      (ngSubmit)="onSubmit(checkoutForm.value)"
+    >
+      <div class="form-group">
+        <label for="nombres">Nombres</label>
+        <input
+          id="nombres"
+          type="text"
+          class="form-control"
+          placeholder="Ingresa un nombre"
+          formControlName="nombres"
+        />
+      </div>
+      <div class="form-group">
+        <label for="apellidos">Apellidos</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apellidos"
+          placeholder="Ingresa los apellidos"
+          formControlName="apellidos"
+        />
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          placeholder="Ingresa un username"
+          formControlName="username"
+        />
+        <small
+          id="emailHelp"
+          class="form-text text-muted"
+          style="color: red !important"
+          [hidden]="!usernameRepeated"
+        >
+          El nombre de usuario ya existe, por favor ingrese otro.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Ingresa una contraseña"
+          formControlName="password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="idRol">Rol</label>
+        <select class="form-control" id="idRol" formControlName="idRol">
+          <option *ngFor="let rol of roles" [value]="rol.id">
+            {{ rol.nombre }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado</label>
+        <select class="form-control" id="estado" formControlName="estado">
+          >
+          <option *ngFor="let estado of estados" [value]="estado.value">
+            {{ estado.nombre }}
+          </option>
+        </select>
+      </div>
+      <div class="actions-form">
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="loadingSubmit"
+        >
+          Registrar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="modal.close('Save click')"
+          [disabled]="loadingSubmit"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

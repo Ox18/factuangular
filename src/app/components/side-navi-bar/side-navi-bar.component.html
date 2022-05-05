@@ -1,16 +1,14 @@
 <div class="container">
-  <div>
-    <a routerLink="/" routerLinkActive="true"> Usuarios </a>
-  </div>
-  <div>
-    <a routerLink="/comprobantes" routerLinkActive="true"> Comprobantes </a>
+  <div *ngFor="let link of links">
+    <a routerLink="{{ link.to }}" routerLinkActive="true">
+      <i class="bi {{ link.icon }}" style="color: white"></i>
+    </a>
   </div>
 </div>
 <div class="container2">
-  <div>
-    <a routerLink="/" routerLinkActive="true"> Usuarios </a>
-  </div>
-  <div>
-    <a routerLink="/comprobantes" routerLinkActive="true"> Comprobantes </a>
+  <div *ngFor="let link of links">
+    <a routerLink="{{ link.to }}" routerLinkActive="true">
+      <i class="bi {{ link.icon }}" style="color: white"></i>
+    </a>
   </div>
 </div>

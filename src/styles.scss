@@ -1,3 +1,5 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
 body{
     // margin: 0px !important;
     // overflow: hidden;
@@ -12,6 +14,7 @@ body{
     margin: 0 auto;
     max-width: 1800px;
     width: 100%;
+    overflow-x: hidden !important;
 }
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';

@@ -24,8 +24,9 @@ export class UserPageComponent implements OnInit {
     this.usuariosLoading = true;
 
     this.usuarioService.getUsuarios().subscribe(
-      (usuariosFromTheAPI: Usuario[]) => {
-        this.usuarios = usuariosFromTheAPI;
+      (usuarios) => {
+        this.usuarios = usuarios;
+        this.usuariosLoading = false;
       },
       (error) => {
         this.usuariosError = true;
@@ -33,7 +34,6 @@ export class UserPageComponent implements OnInit {
       },
       () => {
         this.usuariosLoading = false;
-      }
-    );
+      });
   }
 }

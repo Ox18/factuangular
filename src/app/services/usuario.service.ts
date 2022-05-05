@@ -14,4 +14,24 @@ export class UsuarioService {
   getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.baseUrl);
   }
+
+  existUsername(username: string): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + '/check?username=' + username);
+  }
+
+  crearUsuario(body: UsuarioService.bodyCrearUsuario): Observable<void> {
+    // post and remove cache
+    return this.http.post<void>(this.baseUrl, body);
+  }
+}
+
+export namespace UsuarioService {
+  export interface bodyCrearUsuario {
+    idRol: number;
+    estado: number;
+    username: string;
+    password: string;
+    nombres: string;
+    apellidos: string;
+  }
 }
