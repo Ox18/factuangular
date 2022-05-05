@@ -2,8 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
-  NgForm,
   Validators,
 } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -44,10 +42,10 @@ export class AddUsuarioComponent implements OnInit {
     private usuarioService: UsuarioService
   ) {
     this.checkoutForm = this.formBuilder.group({
-      nombres: '',
-      apellidos: '',
-      username: '',
-      password: '',
+      nombres: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
       idRol: '1',
       estado: '0',
     });
