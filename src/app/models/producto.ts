@@ -6,5 +6,4 @@ export interface Producto {
   stock: number;
   usuarioCreacion: number;
   fechaCreacion: Date;
-  cantidad?: number;
 }

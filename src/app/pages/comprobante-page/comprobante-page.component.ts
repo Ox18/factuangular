@@ -43,7 +43,10 @@ export class ComprobantePageComponent implements OnInit {
     loading: false,
     error: false,
   };
-  productosFiltrados: Producto[] = [];
+  productosFiltrados: Array<{
+    producto: Producto;
+    cantidad: number;
+  }> = [];
 
   closeResult = '';
   clienteIdSelected = 0;
@@ -104,8 +107,8 @@ export class ComprobantePageComponent implements OnInit {
     const onSuccess = (productos: Producto[]) => {
       this.productos.resources = productos;
       this.productosFiltrados = productos.map((producto: Producto) => ({
-        ...producto,
         cantidad: 0,
+        producto,
       }));
     };
 
@@ -162,12 +165,6 @@ export class ComprobantePageComponent implements OnInit {
   onChangeFilterInput(e: any): void {
     // filter by codigo and descripcion
     const filter = e.target.value.toLowerCase();
-    this.productosFiltrados = this.productos.resources
-      .filter(
-        (producto: Producto) =>
-          producto.codigo.toLowerCase().includes(filter) ||
-          producto.descripcion.toLowerCase().includes(filter)
-      )
-      .map((producto: Producto) => ({ ...producto, cantidad: 0 }));
+    
   }
 }

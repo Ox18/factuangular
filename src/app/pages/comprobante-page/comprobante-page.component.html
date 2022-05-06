@@ -150,18 +150,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let producto of productosFiltrados">
+        <tr *ngFor="let productoFiltrado of productosFiltrados">
           <th scope="row">
-            {{ producto.codigo }}
+            {{ productoFiltrado.producto.codigo }}
           </th>
           <td>
-            {{ producto.descripcion }}
+            {{ productoFiltrado.producto.descripcion }}
           </td>
           <td>
-            {{ producto.stock }}
+            {{ productoFiltrado.producto.stock }}
           </td>
           <td>
-            {{ producto.precio }}
+            {{ productoFiltrado.producto.precio }}
           </td>
           <td>
             <input
@@ -173,8 +173,8 @@
               step="1"
               pattern="\d*"
               oninput="this.value = Math.round(this.value);"
-              value="{{ producto.cantidad }}"
-              max="{{ producto.stock }}"
+              value="{{ productoFiltrado.cantidad }}"
+              max="{{ productoFiltrado.producto.stock }}"
             />
           </td>
           <td>
