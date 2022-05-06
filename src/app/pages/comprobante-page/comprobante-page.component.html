@@ -1,21 +1,26 @@
-<form>
+<form [formGroup]="checkoutForm">
   <div class="form-group row">
     <div class="col-sm-4">
-      <label for="inputPassword" class="col-sm-2 col-form-label">Serie:</label
+      <label for="serie" class="col-sm-2 col-form-label">Serie:</label
       ><input
-        type="password"
+        type="text"
         class="form-control"
-        id="inputPassword"
-        placeholder="Password"
+        id="serie"
+        placeholder="Serie"
+        style="text-transform: uppercase"
       />
     </div>
     <div class="col-sm-4">
-      <label for="inputPassword" class="col-sm-2 col-form-label">Número:</label
+      <label for="numero" class="col-sm-2 col-form-label">Número:</label
       ><input
-        type="password"
+        type="number"
         class="form-control"
-        id="inputPassword"
-        placeholder="Password"
+        id="numero"
+        placeholder="Número"
+        min="1"
+        step="1"
+        pattern="\d*"
+        oninput="this.value = Math.round(this.value);"
       />
     </div>
     <div class="col-sm-4">
@@ -24,39 +29,57 @@
         type="date"
         class="form-control"
         id="fecha"
+        formControlName="fecha"
       />
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-12">
-      <label for="inputPassword" class="col-sm-2 col-form-label">Cliente:</label
-      ><input
-        type="password"
+      <label for="cliente" class="col-sm-2 col-form-label">Cliente:</label>
+      <select
+        for="cliente"
         class="form-control"
-        id="inputPassword"
-        placeholder="Password"
+        id="cliente"
+        formControlName="clienteId"
+        (ngModelChange)="onChangeClienteSelect($event)"
+      >
+        <option value="">Seleccione un cliente</option>
+        <option
+          *ngFor="let cliente of clientes.resources"
+          value="{{ cliente.id }}"
+        >
+          {{ cliente.nombres }} {{ cliente.apellidos }}
+        </option>
+      </select>
+    </div>
+    <div class="col-sm-12">
+      <label for="direccion" class="col-sm-2 col-form-label">Dirección:</label
+      ><input
+        type="text"
+        class="form-control"
+        id="direccion"
+        placeholder="Ninguna dirección porque no hay cliente seleccionado"
+        disabled
+        [value]="direccion"
       />
     </div>
     <div class="col-sm-12">
-      <label for="inputPassword" class="col-sm-2 col-form-label"
-        >Dirección:</label
-      ><input
-        type="password"
-        class="form-control"
-        id="inputPassword"
-        placeholder="Password"
-      />
+      <label for="form_de_pago" class="col-sm-2 col-form-label"
+        >Forma de pago:</label
+      >
+      <select for="form_de_pago" class="form-control" id="form_de_pago">
+        <option>Seleccione una forma de pago</option>
+        <option
+          *ngFor="let formaDePago of formasPago.resources"
+          value="{{ formaDePago.id }}"
+        >
+          {{ formaDePago.descripcion }}
+        </option>
+      </select>
     </div>
-    <div class="col-sm-12">
-      <label for="inputPassword" class="col-sm-2 col-form-label">Cliente:</label
-      ><input
-        type="password"
-        class="form-control"
-        id="inputPassword"
-        placeholder="Password"
-      />
-    </div>
-    <button type="button" class="btn btn-primary mt-3">Agregar producto</button>
+    <button type="button" class="btn btn-primary mt-3" (click)="open(content)">
+      Agregar producto
+    </button>
   </div>
   <br />
   <div>
@@ -77,17 +100,13 @@
           <td>Mark</td>
           <td>Otto</td>
           <td>@mdo</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
         </tr>
         <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
+          <td colspan="4"></td>
+          <th scope="row">Total</th>
+          <td>0 S/.</td>
         </tr>
       </tbody>
     </table>
@@ -97,3 +116,80 @@
     <button type="button" class="btn btn-danger">Cancelar</button>
   </div>
 </form>
+
+<ng-template #content let-modal class="">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar producto</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="buscar">Buscar</label>
+      <input
+        type="text"
+        class="form-control"
+        id="buscar"
+        placeholder="Buscar por código o descripción"
+        (keyup)="onChangeFilterInput($event)"
+      />
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Código</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosFiltrados">
+          <th scope="row">
+            {{ producto.codigo }}
+          </th>
+          <td>
+            {{ producto.descripcion }}
+          </td>
+          <td>
+            {{ producto.stock }}
+          </td>
+          <td>
+            {{ producto.precio }}
+          </td>
+          <td>
+            <input
+              type="number"
+              class="form-control"
+              id="cantidad-selected"
+              placeholder="Cantidad"
+              min="1"
+              step="1"
+              pattern="\d*"
+              oninput="this.value = Math.round(this.value);"
+              value="{{ producto.cantidad }}"
+            />
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary">Agregar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Close click')"
+    >
+      Aceptar
+    </button>
+  </div>
+</ng-template>

@@ -1,9 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Rol } from '../models/rol';
 import { RolService } from '../services/rol.service';
@@ -15,6 +11,7 @@ import { UsuarioService } from '../services/usuario.service';
   styleUrls: ['./add-usuario.component.scss'],
 })
 export class AddUsuarioComponent implements OnInit {
+  requiredFields = false;
   roles: Rol[] = [];
   rolesLoading = false;
   rolesError = false;
@@ -33,8 +30,6 @@ export class AddUsuarioComponent implements OnInit {
   ];
   checkoutForm;
 
-  @Output() onSuccessForm = new EventEmitter();
-
   constructor(
     private modalService: NgbModal,
     private rolService: RolService,
@@ -49,12 +44,13 @@ export class AddUsuarioComponent implements OnInit {
       idRol: '1',
       estado: '0',
     });
-    this.onSuccessForm.emit(null);
   }
 
   ngOnInit(): void {
     this.getRoles();
   }
+
+
 
   open(content: any) {
     this.modalService
@@ -101,6 +97,17 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onSubmit(customerData: any) {
+    if (
+      customerData.username === '' ||
+      customerData.password === '' ||
+      customerData.nombres === '' ||
+      customerData.apellidos === ''
+    ) {
+      this.requiredFields = true;
+      return;
+    }
+    this.requiredFields = false;
+
     this.usuarioService.existUsername(customerData.username).subscribe(
       (exist: boolean) => {
         this.usernameRepeated = exist;
