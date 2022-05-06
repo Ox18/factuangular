@@ -162,10 +162,12 @@ export class ComprobantePageComponent implements OnInit {
   onChangeFilterInput(e: any): void {
     // filter by codigo and descripcion
     const filter = e.target.value.toLowerCase();
-    this.productosFiltrados = this.productos.resources.filter(
-      (producto: Producto) =>
-        producto.codigo.toLowerCase().includes(filter) ||
-        producto.descripcion.toLowerCase().includes(filter)
-    );
+    this.productosFiltrados = this.productos.resources
+      .filter(
+        (producto: Producto) =>
+          producto.codigo.toLowerCase().includes(filter) ||
+          producto.descripcion.toLowerCase().includes(filter)
+      )
+      .map((producto: Producto) => ({ ...producto, cantidad: 0 }));
   }
 }
