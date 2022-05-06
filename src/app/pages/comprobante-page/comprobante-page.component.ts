@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { CriteriaProductoByKeyword } from 'src/app/Criteria/CriteriaProductoByKeyword';
 import { Cliente } from 'src/app/models/cliente';
 import { FormaPago } from 'src/app/models/formaPago';
 import { Producto } from 'src/app/models/producto';
@@ -164,7 +165,19 @@ export class ComprobantePageComponent implements OnInit {
 
   onChangeFilterInput(e: any): void {
     // filter by codigo and descripcion
-    const filter = e.target.value.toLowerCase();
-    
+    const keyword = e.target.value.toLowerCase();
+    const productosFiltrados = CriteriaProductoByKeyword.meet(
+      keyword,
+      this.productos.resources
+    );
+
+    const productosFiltradosConvertidos = productosFiltrados.map(
+      (producto: Producto) => ({
+        cantidad: 0,
+        producto,
+      })
+    );
+
+    this.productosFiltrados = productosFiltradosConvertidos;
   }
 }
